@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/testPlan.json
 # Only exists if Bazel was run
 /bazel-out
 package-lock.json
