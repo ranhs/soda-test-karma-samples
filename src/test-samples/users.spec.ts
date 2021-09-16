@@ -1,4 +1,5 @@
 import { expect, describe, context, it, TR, PTR, Done, SinonStub, stub, SinonSandbox, sandbox, beforeEach } from 'soda-test'
+
 import { get, deleteUser, createUser, updateUser, resetPassword } from './users'
 import { User, UserInterface } from './models/user'
 
@@ -43,7 +44,6 @@ class UsersTest {
 
     @it('should call findById with id and return result')
     CheckResult(done: Done): TR {
-	console.log('this', this)
         this.findStub.yields(null, {name: 'foo'})
 
         get(123).then((result)=>{
