@@ -1,16 +1,13 @@
 // unit test for the configuration file features
 import { describe, context, expect, it, stub, spy, rewire, SinonStub, SinonSpy, TR, Rewire } from 'soda-test'
-import { join } from 'path'
+import { secret } from './config'
+import { join } from 'soda-test/dist/path'
 
-import { readConfiguration, initConfiguration } from 'soda-test/dist/test-lib/configuration'
+import { initConfiguration } from 'soda-test/dist/test-lib/configuration'
+import { SodaTestConfiguration } from 'soda-test/dist/test-lib/configurationtypes'
 import * as configuration from 'soda-test/dist/test-lib/configuration'
+import { environment } from 'soda-test'
 
-const emptyConfiguration: configuration.SodaTestConfiguration = {
-    env: {},
-    rewire: {
-        files: {}
-    }
-}
 
 @describe('configuration')
 class ConfigurationTest {
@@ -26,7 +23,8 @@ class ConfigurationTest {
 
     @it('should have the enviroment from the "real" config file')
     getTheEnvironemnet() {
-        expect(process.env.SODAENV).to.equal('GOOD')
+        //expect(process.env).to.equal(environment)
+        expect(environment.SODAENV).to.equal('GOOD')
     }
 
 @context('readConfiguration')
@@ -43,6 +41,9 @@ class ConfigurationTest {
     @spy(console, 'error')
     consoleErrorSpy: SinonSpy
 
+    // @importPrivate('soda-test/dist/test-lib/configurationdata', 'fillMissingConfiguration')
+    // fillMissingConfiguration: (config: unknown) => unknown
+
     fs(): unknown {
         return {
             existsSync: this.existsSyncStub,
@@ -52,23 +53,25 @@ class ConfigurationTest {
 
     @it('should return empty configuration if no fs')
     readConfiguration1(): TR {
-        const config = configuration.readConfiguration(null)
-        expect (config).to.deep.equal(emptyConfiguration)
+        const nullconfig = configuration.readConfigurationFile(null)
+        expect(nullconfig).to.be.null
+        // const config = this.fillMissingConfiguration(null)
+        // expect(config).to.deep.equal(emptyConfiguration)
     }
 
     @it('should return empty configuration if __dirname does not contains node_modules or soda-test')
     readConfiguration2(): TR {
         configuration.set('__dirname', join("C:","Kuku","configuration.js"))
-        const config = configuration.readConfiguration(this.fs())
-        expect(config).to.deep.equal(emptyConfiguration)
+        const nullconfig = configuration.readConfigurationFile(this.fs())
+        expect(nullconfig).to.be.null
         expect(this.existsSyncStub).to.not.have.been.called
     }
 
     @it('should look for .sodaTest before node_modules')
     readConfiugration3(): TR {
         configuration.set('__dirname', join("C:","Kuku", "node_modules", "soda-test", "dist", "test-lib", "configuration.js"))
-        const config = readConfiguration(this.fs())
-        expect(config).to.deep.equal(emptyConfiguration)
+        const nullconfig = configuration.readConfigurationFile(this.fs())
+        expect(nullconfig).to.be.null
         const filename =  join("C:", "Kuku", ".soda-test")
         expect(this.existsSyncStub).to.have.been.calledOnce.calledWith(filename )
         expect(this.consoleWarnSpy).to.have.been.calledWith(`Configuration Warnning: no configuration file exists at ${filename}`)
@@ -77,19 +80,19 @@ class ConfigurationTest {
     @it('should look for .sodaTest after soda-test')
     readConfiugration4(): TR {
         configuration.set('__dirname', join("C:","soda-test", "dist", "test-lib", "configuration.js"))
-        const config = readConfiguration(this.fs())
-        expect(config).to.deep.equal(emptyConfiguration)
+        const nullconfig = configuration.readConfigurationFile(this.fs())
+        expect(nullconfig).to.be.null
         const filename =  join("C:", "soda-test", ".soda-test")
         expect(this.existsSyncStub).to.have.been.calledOnce.calledWith(filename )
         expect(this.consoleWarnSpy).to.have.been.calledWith(`Configuration Warnning: no configuration file exists at ${filename}`)
     }
 
-    @it('should look for .sodaTest after soda-test (exce[topm)')
+    @it('should look for .sodaTest after soda-test (exception)')
     readConfiugration5(): TR {
         configuration.set('__dirname', join("C:","soda-test", "dist", "test-lib", "configuration.js"))
         this.existsSyncStub.callsFake(()=> {throw new Error("Dummy Error")})      
-        const config = readConfiguration(this.fs())
-        expect(config).to.deep.equal(emptyConfiguration)
+        const nullconfig = configuration.readConfigurationFile(this.fs())
+        expect(nullconfig).to.be.null
         const filename =  join("C:", "soda-test", ".soda-test")
         expect(this.existsSyncStub).to.have.been.calledOnce.calledWith(filename )
         expect(this.consoleErrorSpy).to.have.been.calledWith(`Configuration Error: Dummy Error`)
@@ -99,11 +102,13 @@ class ConfigurationTest {
     readConfiugration6(): TR {
         configuration.set('__dirname', join("C:","soda-test", "dist", "test-lib", "configuration.js"))
         this.existsSyncStub.returns(true);  
-        const config = readConfiguration(this.fs())
+        const readconfig = configuration.readConfigurationFile(this.fs())
         const filename =  join("C:", "soda-test", ".soda-test")
         expect(this.existsSyncStub).to.have.been.calledOnce.calledWith(filename )
         expect(this.readFileSyncStub).to.have.been.calledOnce.calledWith(filename)
-        expect(config).to.deep.equals({dummy: 'Value', ...emptyConfiguration})
+        expect(readconfig).to.deep.equal({dummy: 'Value'})
+        // const config = this.fillMissingConfiguration(readconfig)
+        // expect(config).to.deep.equals({dummy: 'Value', ...emptyConfiguration})
     }
 
 @context('initConfiguration')
@@ -117,11 +122,11 @@ class ConfigurationTest {
             },
             rewire: {files: {}}
         })
-        expect(process.env.__dummy1).to.equal('AA')
-        expect(process.env.__dummy2).to.equal('BB')
+        expect(environment.__dummy1).to.equal('AA')
+        expect(environment.__dummy2).to.equal('BB')
         //cleanup
-        delete process.env.__dummy1
-        delete process.env.__dummy2
+        delete environment.__dummy1
+        delete environment.__dummy2
     }
 
 @context('insertVars')
@@ -154,5 +159,11 @@ class ConfigurationTest {
         expect(error).to.exist.to.have.property('message', 'klay is not defined')
     }
 
+@context('secret')
+    @it('should return the secret')
+    secret1(): TR {
+        const s = secret()
+        expect(s).to.equal('secrete')
+    }
 
 }
