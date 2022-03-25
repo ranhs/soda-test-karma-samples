@@ -1,6 +1,7 @@
 import { describe, SinonStub, stub, it, TR, expect, context, beforeEach } from 'soda-test'
 
 import { getHash, isString } from './utils'
+import * as _ from 'underscore'
 
 @describe('utils')
 class UtilsTest {
@@ -60,7 +61,7 @@ class UtilsTest {
     }
 
 @context('isString')
-    @stub('underscore','isString').returns(true)
+    @stub(_,'isString').returns(true)
     iStringStub: SinonStub
 
     @it('should call _.isString and return true')
