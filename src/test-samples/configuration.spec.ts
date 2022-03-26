@@ -29,7 +29,7 @@ class ConfigurationTest {
 
     @it('should have the enviroment from the "real" config file')
     getTheEnvironemnet() {
-        expect(process.env).to.equal(environment)
+        //expect(process.env).to.equal(environment)
         expect(environment.SODAENV).to.equal('GOOD')
     }
 
