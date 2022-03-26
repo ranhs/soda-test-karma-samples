@@ -8,6 +8,12 @@ import { SodaTestConfiguration } from 'soda-test/dist/test-lib/configurationtype
 import * as configuration from 'soda-test/dist/test-lib/configuration'
 import { environment } from 'soda-test'
 
+const emptyConfiguration: SodaTestConfiguration = {
+    env: {},
+    rewire: {
+        files: {}
+    }
+}
 
 @describe('configuration')
 class ConfigurationTest {
@@ -23,7 +29,7 @@ class ConfigurationTest {
 
     @it('should have the enviroment from the "real" config file')
     getTheEnvironemnet() {
-        //expect(process.env).to.equal(environment)
+        expect(process.env).to.equal(environment)
         expect(environment.SODAENV).to.equal('GOOD')
     }
 
@@ -41,9 +47,6 @@ class ConfigurationTest {
     @spy(console, 'error')
     consoleErrorSpy: SinonSpy
 
-    // @importPrivate('soda-test/dist/test-lib/configurationdata', 'fillMissingConfiguration')
-    // fillMissingConfiguration: (config: unknown) => unknown
-
     fs(): unknown {
         return {
             existsSync: this.existsSyncStub,
@@ -55,8 +58,6 @@ class ConfigurationTest {
     readConfiguration1(): TR {
         const nullconfig = configuration.readConfigurationFile(null)
         expect(nullconfig).to.be.null
-        // const config = this.fillMissingConfiguration(null)
-        // expect(config).to.deep.equal(emptyConfiguration)
     }
 
     @it('should return empty configuration if __dirname does not contains node_modules or soda-test')
@@ -107,8 +108,6 @@ class ConfigurationTest {
         expect(this.existsSyncStub).to.have.been.calledOnce.calledWith(filename )
         expect(this.readFileSyncStub).to.have.been.calledOnce.calledWith(filename)
         expect(readconfig).to.deep.equal({dummy: 'Value'})
-        // const config = this.fillMissingConfiguration(readconfig)
-        // expect(config).to.deep.equals({dummy: 'Value', ...emptyConfiguration})
     }
 
 @context('initConfiguration')
