@@ -1,11 +1,7 @@
 import { describe, SinonStub, stub, it, TR, expect, context, beforeEach } from 'soda-test'
 
-<<<<<<< HEAD
-import { getHash, isString } from './utils'
-=======
 import { createGreeting, isString } from './utils'
 import { secret } from './config'
->>>>>>> angular11
 import * as _ from 'underscore'
 
 @describe('utils')
@@ -62,22 +58,16 @@ class UtilsTest {
         expect(this.greeting).to.be.equal('ABC123')
     }
 
-<<<<<<< HEAD
-@context('isString')
-    @stub(_,'isString').returns(true)
-    iStringStub: SinonStub
-=======
-@context('isString1')
-    // this method of stubing (for underscore libraray) does not work on Angular 12
-    @stub('underscore','isString').returns(true)
-    iStringStub1: SinonStub
->>>>>>> angular11
+// @context('isString1')
+//     // this method of stubing (for underscore libraray) does not work on Angular 12
+//     @stub('underscore','isString').returns(true)
+//     iStringStub1: SinonStub
 
-    @it('should call _.isString and return true')
-    isString1(): TR {
-        expect(isString(4)).to.be.true
-        expect(this.iStringStub1).to.have.been.calledOnce
-    }
+//     @it('should call _.isString and return true')
+//     isString1(): TR {
+//         expect(isString(4)).to.be.true
+//         expect(this.iStringStub1).to.have.been.calledOnce
+//     }
 
 @context('isString2')
     @stub(_,'isString').returns(false)

@@ -2,12 +2,6 @@ import {describe, context, it, TR, expect, spy, stub, SinonSpy, SinonStub, rewir
 import {getCount, setCount, advance, decrement, double, squar, DummyClass, BaseClass} from './lib'
 import {getName, setName} from './lib2'
 
-<<<<<<< HEAD
-//import { run } from 'argv'
-=======
-// argv is not supported on Angular12
-import { run } from 'argv'
->>>>>>> angular11
 import { isString, isObject, isFunction, floor } from 'lodash'
 
 class BaseClassType extends BaseClass {
@@ -292,41 +286,6 @@ class TestTest {
     checkRewire2After(): TR {
         expect(getName()).to.equal('Ran')
     }
-
-<<<<<<< HEAD
-    // @it("should rewire external lib as argument")
-    // checkRewire3(@r ewire('argv') lodashRewire: Rewire): TR {
-    //     let f: (arg: string[]) => string[] = lodashRewire.get('run')
-    //     expect(f(['a','b'])).to.deep.equal({targets:["a","b"],options:{}})
-    //     lodashRewire.set('run', (args: string[]) => args)
-    //     expect(run(['v', '3'])).to.deep.equal(["v","3"])
-    //     f = lodashRewire.get('run')
-    //     expect(f(['2','3'])).to.deep.equal(['2','3'])
-    // }
-
-    // @it("should cancel rewire changes")
-    // checkRewrie3After(): TR {   
-    //     expect(run(['Ran','Har-Shuv'])).to.deep.equal({targets:["Ran","Har-Shuv"],options:{}})
-    // }
-=======
-    // This test is not working on Angular 12
-    @it("should rewire external lib as argument")
-    checkRewire3(@rewire('argv') lodashRewire: Rewire): TR {
-        let f: (arg: string[]) => string[] = lodashRewire.get('run')
-        expect(f(['a','b'])).to.deep.equal({targets:["a","b"],options:{}})
-        lodashRewire.set('run', (args: string[]) => args)
-        expect(run(['v', '3'])).to.deep.equal(["v","3"])
-        f = lodashRewire.get('run')
-        expect(f(['2','3'])).to.deep.equal(['2','3'])
-    }
-
-    // This test is not working on Angular 12
-    @it("should cancel rewire changes")
-    checkRewrie3After(): TR {   
-        expect(run(['Ran','Har-Shuv'])).to.deep.equal({targets:["Ran","Har-Shuv"],options:{}})
-    }
->>>>>>> angular11
-
 
     @rewire('lodash')
     LodashRewire1: Rewire
