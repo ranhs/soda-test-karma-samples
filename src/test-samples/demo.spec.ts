@@ -109,4 +109,3 @@ class TestDemoTest {
         expect(this.theDefaultStub).to.have.been.calledOnce
     }
 }
-
