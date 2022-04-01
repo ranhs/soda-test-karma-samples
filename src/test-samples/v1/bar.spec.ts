@@ -1,4 +1,4 @@
-import { it, TR, describe, context, assert, before, after, beforeEach, afterEach, pending } from 'soda-test'
+import { it, TR, describe, context, expect, before, after, beforeEach, afterEach, pending, environment } from 'soda-test'
 
 @describe("files to tested")
 class DescribeClassTest {
@@ -23,17 +23,17 @@ class DescribeClassTest {
 
     @it("should test something")
     test1(): TR {
-        assert.equal(1,1)
-        console.log("ENV:", process.env.NODE_ENV)
+        expect(1).to.equal(1)
+        console.log("ENV:", environment.NODE_ENV)
 
-        if ( process.env.NODE_ENV === "development" ) {
+        if ( environment.NODE_ENV === "development" ) {
             console.log('This is development mode')
         }
     }
 
     @it("should test something else")
     test2(): TR {
-        assert.deepEqual({name:"joe"}, {name:"joe"})
+        expect({name:"joe"}).to.deep.equal({name:"joe"})
     }
 
 @context("function2 to be tested")
