@@ -83,7 +83,7 @@
           }
         },
         "test": {
-          "builder": "soda-test:karma",
+          "builder": "soda-test:karma", 
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
