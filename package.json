@@ -22,7 +22,6 @@
     "generate-function": "^2.3.1",
     "parse-function": "^5.6.10",
     "rxjs": "~7.5.0",
-    "soda-test": "file:../soda-test/soda-test-1.5.1.tgz",
     "stream-browserify": "^3.0.0",
     "tslib": "^2.3.0",
     "underscore": "^1.13.2",
@@ -40,6 +39,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "soda-test": "file:../soda-test/soda-test-1.5.1.tgz",
     "typescript": "~4.7.2"
   }
 }
