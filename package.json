@@ -1,6 +1,6 @@
 {
   "name": "soda-test-karma-samples",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -39,7 +39,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "soda-test": "file:../soda-test/soda-test-1.5.2.tgz",
+    "soda-test": "^1.5.2",
     "typescript": "~4.3.5"
   }
 }
