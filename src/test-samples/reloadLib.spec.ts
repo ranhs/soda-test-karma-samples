@@ -15,9 +15,6 @@ class RewireReloadTest {
         expect(this.orgValue).to.be.a('number')
     }
 
-
-    // NOT supporting reload for now
-    /*
 @context('1')
 
     tempValue: number
@@ -30,7 +27,7 @@ class RewireReloadTest {
         this.tempValue = value
         expect(this.tempValue).to.equal(this.reloadLib1.get('value1'))
         expect(this.tempValue).to.not.equal(this.orgValue)
-    }*/
+    }
 
 @context('2')
 
