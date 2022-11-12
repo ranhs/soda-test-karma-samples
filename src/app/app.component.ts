@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'soda-test-karma-samples';
+  text1 = "";
+  text2 = "";
+
+  onClearClicked() {
+    this.text1=this.text2=""
+  }
 }
