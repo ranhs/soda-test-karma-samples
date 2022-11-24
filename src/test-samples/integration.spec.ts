@@ -1,5 +1,4 @@
-import { query } from '@angular/animations';
-import { describe, it, expect, TR, TestBed, ComponentFixture, fixture, component } from 'soda-test'
+import { describe, it, expect, TR, TestBed, ComponentFixture, SodaFixture, fixture, component } from 'soda-test'
 import { AppComponent } from 'src/app/app.component';
 import { HighlightDirective } from 'src/app/highlight.directive';
 
@@ -10,7 +9,7 @@ import { HighlightDirective } from 'src/app/highlight.directive';
 class IntegrationTest {
 
     @fixture(AppComponent)
-    fixture: ComponentFixture<AppComponent>
+    fixture: SodaFixture<AppComponent>
     @component(AppComponent)
     component: AppComponent
 
@@ -76,6 +75,17 @@ class IntegrationTest {
         this.fixture.detectChanges()
         let d1 = this.fixture.debugElement.query.by.css('[id=d1]')
         expect(d1.nativeElement.innerText).to.equal('ABC123')
+    }
+
+    @it('should clear the texts when clicking on clear button')
+    validateClear() {
+        let b = this.fixture.debugElement.query.by.css('[id=Clear]')
+        expect(b.nativeNode.innerText).to.equal('Clear')
+        this.component.text1 = 'ABC'
+        this.component.text2 = '123'
+        b.triggerEventHandler.click()
+        expect(this.component.text1).to.equal('')
+        expect(this.component.text2).to.equal('')
     }
 
 }
