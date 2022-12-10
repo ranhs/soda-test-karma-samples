@@ -64,12 +64,12 @@ class IntegrationTest {
     @it('should render the combine strings')
     validateCombineStrings() {
         let a1 = this.fixture.debugElement.query.by.css('[id=a1]')
-        a1.triggerEventHandler.ngModelChange("ABC")
+        a1.text = "ABC"
         let a2 = this.fixture.debugElement.query.by.css('[id=a2]')
-        a2.triggerEventHandler.ngModelChange("123")
+        a2.text = "123"
         this.fixture.detectChanges()
         let d1 = this.fixture.debugElement.query.by.css('[id=d1]')
-        expect(d1.nativeElement.innerText).to.equal('ABC123')
+        expect(d1.text).to.equal('ABC123')
     }
 
     @it('should clear the texts when clicking on clear button')
