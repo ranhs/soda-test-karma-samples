@@ -2,9 +2,6 @@ import { describe, it, expect, TR, TestBed, ComponentFixture, SodaFixture, fixtu
 import { AppComponent } from 'src/app/app.component';
 import { HighlightDirective } from 'src/app/highlight.directive';
 
-//import * as apb from '@angular/platform-browser'
-///**/import {By} from '@angular/platform-browser'
-
 @describe('integration')
 class IntegrationTest {
 
@@ -66,12 +63,10 @@ class IntegrationTest {
 
     @it('should render the combine strings')
     validateCombineStrings() {
-        // let a1 = this.fixture.debugElement.query.by.css('[id=a1]')
-        // a1.nativeElement.innerText = "ABC"
-        // let a2 = this.fixture.debugElement.query.by.css('[id=a2]')
-        // a2.nativeElement.innerText = "123"
-        this.component.text1 = 'ABC'
-        this.component.text2 = '123'
+        let a1 = this.fixture.debugElement.query.by.css('[id=a1]')
+        a1.triggerEventHandler.ngModelChange("ABC")
+        let a2 = this.fixture.debugElement.query.by.css('[id=a2]')
+        a2.triggerEventHandler.ngModelChange("123")
         this.fixture.detectChanges()
         let d1 = this.fixture.debugElement.query.by.css('[id=d1]')
         expect(d1.nativeElement.innerText).to.equal('ABC123')
