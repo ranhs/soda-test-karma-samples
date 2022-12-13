@@ -12,5 +12,6 @@
 <div id="d1">{{text1}}{{text2}}</div><br>
 <button id="Clear" [disabled]="text1+text2==''" (click)="onClearClicked()">Clear</button>
 <p class="appHighlight">Light me!</p>
+<mycomponent [ikey]="mycomponentkey" (ievent)="onMyComponentEvent($event)">My Component</mycomponent>
 
 

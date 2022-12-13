@@ -1,6 +1,13 @@
-import { describe, it, expect, TR, TestBed, ComponentFixture, SodaFixture, fixture, component } from 'soda-test'
+import { describe, it, expect, TR, TestBed, ComponentFixture, SodaFixture, fixture, component, addEvents, SodaDebugElement } from 'soda-test'
 import { AppComponent } from 'src/app/app.component';
 import { HighlightDirective } from 'src/app/highlight.directive';
+
+
+interface MyComponentEvent {
+    ievent(data: any): void
+}
+
+addEvents('ievent')
 
 @describe('integration')
 class IntegrationTest {
@@ -63,18 +70,18 @@ class IntegrationTest {
 
     @it('should render the combine strings')
     validateCombineStrings() {
-        let a1 = this.fixture.debugElement.query.by.css('[id=a1]')
+        let a1 = this.fixture.queryByCss('[id=a1]')
         a1.text = "ABC"
-        let a2 = this.fixture.debugElement.query.by.css('[id=a2]')
+        let a2 = this.fixture.queryByCss('[id=a2]')
         a2.text = "123"
         this.fixture.detectChanges()
-        let d1 = this.fixture.debugElement.query.by.css('[id=d1]')
+        let d1 = this.fixture.queryByCss('[id=d1]')
         expect(d1.text).to.equal('ABC123')
     }
 
     @it('should clear the texts when clicking on clear button')
     validateClear() {
-        let b = this.fixture.debugElement.query.by.css('[id=Clear]')
+        let b = this.fixture.queryByCss('[id=Clear]')
         expect(b.nativeNode.innerText).to.equal('Clear')
         this.component.text1 = 'ABC'
         this.component.text2 = '123'
@@ -83,4 +90,19 @@ class IntegrationTest {
         expect(this.component.text2).to.equal('')
     }
 
+    @it('should bind the "mycomponentkey" to mycomponent "ikey" input')
+    validateInput() {
+        this.component.mycomponentkey = 'the_key!!!'
+        this.fixture.detectChanges()
+        let mc = this.fixture.queryByCss('mycomponent')
+        expect(mc).to.exist
+        expect(mc.nativeElement['ikey']).to.equal('the_key!!!')
+    }
+
+    @it('should bin the mycomponent "ievent" event to onMyComponentEvent method')
+    validateOutput() {
+        let mc = this.fixture.queryByCss<MyComponentEvent>('mycomponent')
+        mc.triggerEventHandler.ievent({data: 'xxx'})
+        expect(this.component.eventCalls).to.deep.equal([{data:'xxx'}])
+    }
 }

@@ -13,4 +13,10 @@ export class AppComponent {
   onClearClicked() {
     this.text1=this.text2=""
   }
+
+  mycomponentkey: string
+  onMyComponentEvent(data: any) {
+    this.eventCalls.push(data)
+  }
+  eventCalls = []
 }
