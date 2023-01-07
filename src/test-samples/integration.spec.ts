@@ -1,6 +1,7 @@
-import { describe, it, expect, TR, TestBed, ComponentFixture, SodaFixture, fixture, component, addEvents, SodaDebugElement } from 'soda-test'
-import { AppComponent } from 'src/app/app.component';
+import { describe, it, expect, TR, TestBed, ComponentFixture, SodaFixture, fixture, component, addEvents, SodaDebugElement, context, beforeEach } from 'soda-test'
+import { AppComponent, MyComponentComponent } from 'src/app/app.component';
 import { HighlightDirective } from 'src/app/highlight.directive';
+import { FormsModule } from '@angular/forms';
 
 
 interface MyComponentEvent {
@@ -9,23 +10,44 @@ interface MyComponentEvent {
 
 addEvents('ievent')
 
+@describe('integration1')
+class IntegrationTest1 {
+    @it('got the TestBed')
+    addBasic(
+            @fixture(AppComponent, {declarations: [MyComponentComponent], imports: [FormsModule]}) fixture1: ComponentFixture<AppComponent>,
+            @component(AppComponent) component1: AppComponent
+        ): TR {
+        expect (TestBed).to.exist
+        let fixture: ComponentFixture<AppComponent>
+        fixture = TestBed.createComponent(AppComponent)
+        expect(fixture).to.exist
+        let component = fixture.componentInstance
+        expect(component).to.exist
+        expect(component.title).to.equal('soda-test-karma-samples')
+
+        expect(fixture1).to.exist
+        component = fixture1.componentInstance
+        expect(component).to.exist
+        expect(component.title).to.equal('soda-test-karma-samples')
+        expect(component1).to.exist
+        expect(component1.title).to.equal('soda-test-karma-samples')
+        expect(component1 === component).to.be.true
+    }
+}
+
 @describe('integration')
 class IntegrationTest {
-
-    @fixture(AppComponent)
+    @fixture(AppComponent, {
+        declarations: [MyComponentComponent],
+        imports: [FormsModule]
+    })
     fixture: SodaFixture<AppComponent>
     @component(AppComponent)
     component: AppComponent
 
     @it('got the TestBed')
-    addBasic(
-            @fixture(AppComponent) fixture1: ComponentFixture<AppComponent>,
-            @component(AppComponent) component1: AppComponent
-        ): TR {
+    addBasic(): TR {
         expect (TestBed).to.exist
-        // TestBed.configureTestingModule({
-        //     declarations: [ AppComponent ]
-        // });
         let fixture: ComponentFixture<AppComponent>
         fixture = TestBed.createComponent(AppComponent)
         expect(fixture).to.exist
@@ -40,16 +62,6 @@ class IntegrationTest {
         expect(this.component).to.exist
         expect(this.component.title).to.equal('soda-test-karma-samples')
         expect(component === this.component).to.be.true
-
-
-        expect(fixture1).to.exist
-        component = fixture1.componentInstance
-        expect(component).to.exist
-        expect(component.title).to.equal('soda-test-karma-samples')
-        expect(component1).to.exist
-        expect(component1.title).to.equal('soda-test-karma-samples')
-        expect(component1 === component).to.be.true
-        expect(component1===this.component).to.be.false
     }
 
     @it('should rander to the title')
@@ -96,10 +108,10 @@ class IntegrationTest {
         this.fixture.detectChanges()
         let mc = this.fixture.queryByCss('mycomponent')
         expect(mc).to.exist
-        expect(mc.nativeElement['ikey']).to.equal('the_key!!!')
+        expect(mc.componentInstance['ikey']).to.equal('the_key!!!')
     }
 
-    @it('should bin the mycomponent "ievent" event to onMyComponentEvent method')
+    @it('should bind the mycomponent "ievent" event to onMyComponentEvent method')
     validateOutput() {
         let mc = this.fixture.queryByCss<MyComponentEvent>('mycomponent')
         mc.triggerEventHandler.ievent({data: 'xxx'})
