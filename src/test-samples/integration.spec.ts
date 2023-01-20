@@ -8,8 +8,6 @@ interface MyComponentEvent {
     ievent(data: any): void
 }
 
-addEvents('ievent')
-
 @describe('integration1')
 class IntegrationTest1 {
     @it('got the TestBed')
@@ -39,8 +37,11 @@ class IntegrationTest1 {
 class IntegrationTest {
     @fixture(AppComponent, {
         declarations: [MyComponentComponent],
-        imports: [FormsModule]
-    })
+        imports: [FormsModule],
+        events: ['ievent'],
+        inputs: ['initText'],
+        outputs: ['tellTheWorld']
+    } as never)
     fixture: SodaFixture<AppComponent>
     @component(AppComponent)
     component: AppComponent
@@ -116,5 +117,24 @@ class IntegrationTest {
         let mc = this.fixture.queryByCss<MyComponentEvent>('mycomponent')
         mc.triggerEventHandler.ievent({data: 'xxx'})
         expect(this.component.eventCalls).to.deep.equal([{data:'xxx'}])
+    }
+
+    @it('should bind the "initText" to an input')
+    validateComponentInput() {
+        this.fixture.inputs['initText'] = 'BlaBlaBla'
+        this.fixture.detectChanges()
+        expect(this.component.initText).to.equal('BlaBlaBla')
+    }
+
+    @it('should bind the "tellTheWorld" to an event')
+    validateComponentOutput() {
+        const messages: string[] = []
+        this.fixture.events.on('tellTheWorld', (message) => {
+            messages.push(message)
+        })
+        expect(messages).to.deep.equal([])
+        this.component.tellTheWorld.emit('I am here!!!')
+        expect(messages).to.deep.equal(['I am here!!!'])
+        this.fixture.events.removeAllListeners('tellTheWorld')
     }
 }
