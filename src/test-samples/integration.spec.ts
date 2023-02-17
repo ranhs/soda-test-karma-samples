@@ -108,8 +108,9 @@ class IntegrationTest {
         this.component.mycomponentkey = 'the_key!!!'
         this.fixture.detectChanges()
         let mc = this.fixture.queryByCss('mycomponent')
+        console.log(mc.nativeElement)
         expect(mc).to.exist
-        expect(mc.componentInstance['ikey']).to.equal('the_key!!!')
+        expect(mc.attributes.ikey).to.equal('the_key!!!')
     }
 
     @it('should bind the mycomponent "ievent" event to onMyComponentEvent method')
