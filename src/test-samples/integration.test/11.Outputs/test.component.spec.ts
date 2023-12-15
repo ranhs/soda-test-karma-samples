@@ -1,10 +1,14 @@
 import { describe, it, expect, TR, SodaFixture, fixture, component } from 'soda-test'
 import { TestComponent } from './test.component'
+import { FormsModule } from '@angular/forms'
 
 @describe('Test Component')
 class TestComponentTest {
 
-  @fixture(TestComponent, {outputs: ['t1']})
+  @fixture(TestComponent, {
+    imports: [FormsModule],
+    outputs: ['t1']
+  })
   fixture: SodaFixture<TestComponent>
   @component(TestComponent)
   component: TestComponent

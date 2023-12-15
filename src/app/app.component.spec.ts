@@ -1,12 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { AppComponent, MyComponentComponent } from './app.component';
+import { HighlightDirective } from './highlight.directive';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        HighlightDirective,
+        MyComponentComponent
       ],
+      imports: [
+        BrowserModule,
+        FormsModule
+      ]    
     }).compileComponents();
   });
 
