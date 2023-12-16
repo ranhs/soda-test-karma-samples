@@ -1,6 +1,6 @@
 import { describe, it, expect, TR, TestBed, ComponentFixture, SodaFixture, fixture, component, addEvents, SodaDebugElement, context, beforeEach } from 'soda-test'
-import { AppComponent, MyComponentComponent } from 'src/app/app.component';
-import { HighlightDirective } from 'src/app/highlight.directive';
+import { AppComponent, MyComponentComponent } from '../../src/app/app.component';
+import { HighlightDirective } from '../../src/app/highlight.directive';
 import { FormsModule } from '@angular/forms';
 
 
